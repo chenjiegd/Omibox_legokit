@@ -281,14 +281,13 @@ void CMD_Matrix_Picture_Func(uint8_t static_or_move, uint8_t index)
 void CMD_Servo_Func()
 {
 	uint8_t index, pos;
-	int data_converted;
 	index = InputString[3] - 0x30;
 	pos = (InputString[4] - 0x30)*100 + (InputString[5] - 0x30)*10 + (InputString[6]-0x30);
 
 	pos = map(pos, 0, 180, 0, 30);
-	if(index == 1){
-		pos = map(pos, 0, 30, 30, 0);
-	}
+	// if(index == 1){
+	// 	pos = map(pos, 0, 30, 30, 0);
+	// }
 	if(index < 5 && pos <= 180)
 		cMotor.SetServoAngle(index,pos);
 }
@@ -321,10 +320,19 @@ void CMD_RGB_Func()
 //鸣笛模式
 void CMD_BEEP_Func(uint8_t state)
 {
-    if(state == 1)
-      	cBuzzer.setBuzzer_Tone(262, 1);
-    else
-      	cBuzzer.setBuzzer_Tone(0, 8);
+	uint8_t index, pos1, pos2;
+	index = 1;
+	pos1 = 0;
+	pos2 = 30;
+    if(state == 1){
+		cMotor.SetServoAngle(index, pos2);
+		delay(200);
+		cMotor.SetServoAngle(index, pos1);
+		cBuzzer.setBuzzer_Tone(262, 1);
+	}
+    else{
+		cBuzzer.setBuzzer_Tone(0, 8);
+	}
 }
 
 //弹奏音乐模式
