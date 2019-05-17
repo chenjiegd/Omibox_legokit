@@ -281,16 +281,31 @@ void CMD_Matrix_Picture_Func(uint8_t static_or_move, uint8_t index)
 void CMD_Servo_Func()
 {
 	uint8_t index, pos;
-	int data_converted;
 	index = InputString[3] - 0x30;
 	pos = (InputString[4] - 0x30)*100 + (InputString[5] - 0x30)*10 + (InputString[6]-0x30);
 
-	pos = map(pos, 0, 180, 0, 30);
-	if(index == 1){
-		pos = map(pos, 0, 30, 30, 0);
-	}
+	pos = map(pos, 0, 180, 100, 180);
+	// if(index == 1){
+	// 	pos = map(pos, 0, 30, 30, 0);
+	// }
 	if(index < 5 && pos <= 180)
 		cMotor.SetServoAngle(index,pos);
+}
+
+void CMD_Button_A_or_B(uint8_t state){
+	uint8_t index, pos1, pos2;
+	index = 1;
+	pos1 = 100;
+	pos2 = 180;
+	if(state == 1){
+		//Button A
+		cMotor.SetServoAngle(index, pos2);
+		delay(200);
+		cMotor.SetServoAngle(index, pos1);
+	}else if(state == 2){
+		//Button B
+
+	}
 }
 
 //七彩灯控制模式
@@ -781,6 +796,7 @@ void serial_data_parse()
 		case '9': CMD_ReportMode_Func(state - 0x30); break;                                //上报模式
 		case 'A': CMD_Mode_Func(state - 0x30);break;                                       //模式选择
 		case 'B': CMD_Matrix_Refrush_Func();break;                                         //点阵动态刷新 
+		case 'C': CMD_Button_A_or_B(state - 0x30);break;									//按键A和B
 	} 
 	InputString = "";                     //清空串口数据
 	NewLineReceived = false;

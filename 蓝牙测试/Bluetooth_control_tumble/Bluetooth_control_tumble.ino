@@ -294,6 +294,25 @@ void CMD_Servo_Func()
 		cMotor.SetServoAngle(index,pos);
 }
 
+void CMD_Button_A_or_B(uint8_t state){
+	uint8_t index1, index2, pos1, pos2;
+	index1 = 1;
+	index2 = 2;
+	pos1 = 30;
+	pos2 = 120;
+	if(state == 1){
+		//Button A
+		cMotor.SetServoAngle(index1, pos1);
+		cMotor.SetServoAngle(index2, pos2);
+		delay(200);
+		cMotor.SetServoAngle(index1, pos2);
+		cMotor.SetServoAngle(index2, pos1);
+	}else if(state == 2){
+		//Button B
+
+	}
+}
+
 //七彩灯控制模式
 void CMD_RGB_Func()
 {
@@ -322,17 +341,7 @@ void CMD_RGB_Func()
 //鸣笛模式
 void CMD_BEEP_Func(uint8_t state)
 {
-	uint8_t index1, index2, pos1, pos2;
-	index1 = 1;
-	index2 = 2;
-	pos1 = 30;
-	pos2 = 120;
     if(state == 1){
-		cMotor.SetServoAngle(index1, pos1);
-		cMotor.SetServoAngle(index2, pos2);
-		delay(500);
-		cMotor.SetServoAngle(index1, pos2);
-		cMotor.SetServoAngle(index2, pos1);
 		cBuzzer.setBuzzer_Tone(262, 1);
 	}else{
 		cBuzzer.setBuzzer_Tone(0, 8);
@@ -793,6 +802,7 @@ void serial_data_parse()
 		case '9': CMD_ReportMode_Func(state - 0x30); break;                                //上报模式
 		case 'A': CMD_Mode_Func(state - 0x30);break;                                       //模式选择
 		case 'B': CMD_Matrix_Refrush_Func();break;                                         //点阵动态刷新 
+		case 'C': CMD_Button_A_or_B(state - 0x30);break;									//按键A和B
 	} 
 	InputString = "";                     //清空串口数据
 	NewLineReceived = false;

@@ -292,6 +292,22 @@ void CMD_Servo_Func()
 		cMotor.SetServoAngle(index,pos);
 }
 
+void CMD_Button_A_or_B(uint8_t state){
+	uint8_t index, pos1, pos2;
+	index = 1;
+	pos1 = 0;
+	pos2 = 30;
+	if(state == 1){
+		//Button A
+		cMotor.SetServoAngle(index, pos2);
+		delay(200);
+		cMotor.SetServoAngle(index, pos1);
+	}else if(state == 2){
+		//Button B
+
+	}
+}
+
 //七彩灯控制模式
 void CMD_RGB_Func()
 {
@@ -320,14 +336,7 @@ void CMD_RGB_Func()
 //鸣笛模式
 void CMD_BEEP_Func(uint8_t state)
 {
-	uint8_t index, pos1, pos2;
-	index = 1;
-	pos1 = 0;
-	pos2 = 30;
     if(state == 1){
-		cMotor.SetServoAngle(index, pos2);
-		delay(200);
-		cMotor.SetServoAngle(index, pos1);
 		cBuzzer.setBuzzer_Tone(262, 1);
 	}
     else{
@@ -778,17 +787,18 @@ void serial_data_parse()
 	char state = InputString[3];
 	switch(cmd)
 	{
-		case '1': CMD_Sport_Func(state);break;                                             //运动类
-		case '2': CMD_Matrix_Show_Func();break;                                            //点阵类单独点
-		case '3': CMD_Matrix_Picture_Func(state - 0x30, InputString[4] - 0x30);break;      //显示动态表情
-		case '4': CMD_Servo_Func();break;                                                  //舵机控制
-		case '5': CMD_RGB_Func(); break;                                                   //幻彩车灯
-		case '6': CMD_BEEP_Func(state - 0x30);break;                                       //鸣笛
-		case '7': CMD_Music_Func();break;                                                  //音乐弹奏
-		case '8': CMD_Sound_Func(); break;                                                 //音乐选择播放和暂停
-		case '9': CMD_ReportMode_Func(state - 0x30); break;                                //上报模式
-		case 'A': CMD_Mode_Func(state - 0x30);break;                                       //模式选择
-		case 'B': CMD_Matrix_Refrush_Func();break;                                         //点阵动态刷新 
+		case '1': CMD_Sport_Func(state);break;                                             	//运动类
+		case '2': CMD_Matrix_Show_Func();break;                                            	//点阵类单独点
+		case '3': CMD_Matrix_Picture_Func(state - 0x30, InputString[4] - 0x30);break;      	//显示动态表情
+		case '4': CMD_Servo_Func();break;                                                  	//舵机控制
+		case '5': CMD_RGB_Func(); break;                                                   	//幻彩车灯
+		case '6': CMD_BEEP_Func(state - 0x30);break;                                       	//鸣笛
+		case '7': CMD_Music_Func();break;                                                  	//音乐弹奏
+		case '8': CMD_Sound_Func(); break;                                                 	//音乐选择播放和暂停
+		case '9': CMD_ReportMode_Func(state - 0x30); break;                                	//上报模式
+		case 'A': CMD_Mode_Func(state - 0x30);break;                                       	//模式选择
+		case 'B': CMD_Matrix_Refrush_Func();break;                                         	//点阵动态刷新
+		case 'C': CMD_Button_A_or_B(state - 0x30);break;									//按键A和B
 	} 
 	InputString = "";                     //清空串口数据
 	NewLineReceived = false;
