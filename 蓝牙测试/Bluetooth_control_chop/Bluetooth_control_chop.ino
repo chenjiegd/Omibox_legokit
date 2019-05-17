@@ -769,6 +769,7 @@ void CMD_Matrix_Refrush_Func()
 /**
 * Function       serial_data_parse
 * @author        liusen
+					wusicaijuan
 * @date          2019.02.27
 * @brief         串口数据解析并指定相应的动作
 * @param[in]     void
