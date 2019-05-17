@@ -197,11 +197,11 @@ YahBoom_OMIBOX_RGBLED::YahBoom_OMIBOX_RGBLED(byte max_led, byte pin)   //构造�
 YahBoom_OMIBOX_RGBLED::~YahBoom_OMIBOX_RGBLED()
 {
 	
-} 
+}
 void YahBoom_OMIBOX_RGBLED::RGBLED_Init()
 {
-	strip.begin();           
-  strip.show(); 
+	strip.begin();
+  strip.show();
 }
 
 void YahBoom_OMIBOX_RGBLED::RGBLED_Show_Color(byte Num, uint8_t v_Red, uint8_t v_Green, uint8_t v_Blue)

@@ -187,7 +187,7 @@ void loop()
 			case 5:  Mode_Avoid_Func(); break;
 			case 6:  Mode_Fllow_Func(); break;
 			case 7:  Mode_VoiceCtrl_Func();break;
-			case 8:  Mode_Close_Func();cColor.PowerSwith(0); break;   
+			case 8:  Mode_Close_Func();cColor.PowerSwith(0); break;
 		}
     }
 
@@ -289,6 +289,7 @@ void CMD_Servo_Func()
 	if(index == 1){
 		pos = map(pos, 30, 120, 120, 30);
 	}
+
 	if(index < 5 && pos <= 180)
 		cMotor.SetServoAngle(index,pos);
 }
@@ -321,10 +322,21 @@ void CMD_RGB_Func()
 //鸣笛模式
 void CMD_BEEP_Func(uint8_t state)
 {
-    if(state == 1)
-      	cBuzzer.setBuzzer_Tone(262, 1);
-    else
-      	cBuzzer.setBuzzer_Tone(0, 8);
+	uint8_t index1, index2, pos1, pos2;
+	index1 = 1;
+	index2 = 2;
+	pos1 = 30;
+	pos2 = 120;
+    if(state == 1){
+		cMotor.SetServoAngle(index1, pos1);
+		cMotor.SetServoAngle(index2, pos2);
+		delay(500);
+		cMotor.SetServoAngle(index1, pos2);
+		cMotor.SetServoAngle(index2, pos1);
+		cBuzzer.setBuzzer_Tone(262, 1);
+	}else{
+		cBuzzer.setBuzzer_Tone(0, 8);
+	}
 }
 
 //弹奏音乐模式
