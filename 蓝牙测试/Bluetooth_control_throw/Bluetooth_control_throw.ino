@@ -293,6 +293,7 @@ void CMD_Servo_Func()
 		cMotor.SetServoAngle(index,pos);
 }
 
+//APP 按键A和B
 void CMD_Button_A_or_B(uint8_t state){
 	uint8_t index, pos1, pos2;
 	index = 1;
